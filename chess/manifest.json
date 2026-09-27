@@ -1,0 +1,10 @@
+{
+  "name": "Тихий ход — шахматы",
+  "short_name": "Тихий ход",
+  "lang": "ru",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#111512",
+  "theme_color": "#111512",
+  "description": "Шахматы против компьютера"
+}

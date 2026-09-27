@@ -1,0 +1,5 @@
+const CACHE='quiet-move-v10';
+const FILES=['./','./index.html','./styles.css','./settings.css','./extras.css','./app.js','./features.js','./manifest.json','./stockfish-19-lite-single.js','./stockfish-19-lite-single.wasm','./Stockfish-LICENSE.txt'];
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',event=>event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request))));

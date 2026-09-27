@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111512">
+  <link rel="manifest" href="manifest.json">
+  <title>Шахматы</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="settings.css">
+  <link rel="stylesheet" href="extras.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar"><a class="brand" href="#" aria-label="Главная"><span class="brand-mark">♞</span><span data-i18n="brand">ТИХИЙ<br>ХОД</span></a><div class="top-actions"><button class="icon-button" id="flip" aria-label="Перевернуть доску" title="Перевернуть доску">↻</button><button class="icon-button settings-open" id="settings-open" aria-label="Настройки" title="Настройки">⚙</button></div></header>
+    <section class="game">
+      <div class="heading"><p class="eyebrow" data-i18n="eyebrow">ПАРТИЯ С КОМПЬЮТЕРОМ</p><h1 data-i18n="title">Шахматы</h1></div>
+      <div class="player opponent"><span class="avatar">♟</span><div><strong data-i18n="computer">Компьютер</strong><small id="bot-state">Ваш соперник</small></div><span class="captured" id="black-captured"></span></div>
+      <div class="board-wrap"><div id="board" class="board" role="grid" aria-label="Шахматная доска"></div></div>
+      <div class="player own"><span class="avatar own-avatar">♙</span><div><strong data-i18n="you">Вы</strong><small id="turn-label">Ваш ход</small></div><span class="captured" id="white-captured"></span></div>
+      <div class="controls"><label for="difficulty" data-i18n="level">Уровень</label><div class="select-wrap"><select id="difficulty"><option value="novice">Новичок</option><option value="easy">Лёгкий</option><option value="medium" selected>Средний</option><option value="hard">Сложный</option><option value="expert">Эксперт</option><option value="master">Мастер</option><option value="grandmaster">Гроссмейстер</option></select><span>⌄</span></div><button id="new-game" class="new-game"><span data-i18n="newGame">Новая партия</span><span class="arrow">↗</span></button></div>
+      <p class="hint" id="hint">Выберите фигуру, затем клетку для хода.</p>
+      <button id="undo" class="undo-button" data-i18n="undo">↶ Отменить ход</button>
+      <section class="analysis" aria-label="Анализ позиции"><div class="analysis-head"><strong data-i18n="position">Позиция</strong><span id="engine-status">Stockfish</span></div><div class="eval-row"><span class="eval-bar"><i id="eval-fill"></i></span><b id="eval-score">—</b></div><div class="analysis-actions"><button id="suggest">✦ <span data-i18n="hint">Подсказка</span></button><button id="analyze">⌁ <span data-i18n="analyze">Анализ</span></button></div><p id="suggestion" class="suggestion" aria-live="polite"></p></section>
+      <section class="moves-panel"><div class="moves-heading"><strong data-i18n="moves">Ходы</strong><button id="review" hidden data-i18n="review">Посмотреть партию</button></div><div id="move-list" class="move-list"><span class="empty-moves">—</span></div></section>
+    </section>
+    <footer data-i18n="footer">Хорошая партия начинается с одного хода.</footer>
+  </main>
+  <dialog id="promotion"><form method="dialog"><h2 data-i18n="promotionTitle">Превращение пешки</h2><div class="promotion-options"><button value="q">♕</button><button value="r">♖</button><button value="b">♗</button><button value="n">♘</button></div></form></dialog>
+  <dialog id="settings" class="settings-dialog"><form method="dialog"><div class="settings-title"><h2 data-i18n="settings">Настройки</h2><button class="close-dialog" value="close" aria-label="Close">×</button></div><label data-i18n="language">Язык</label><select id="language"><option value="ru">Русский</option><option value="uk">Українська</option><option value="en">English</option></select><label data-i18n="pieces">Фигуры</label><div class="choice-row" id="piece-styles"><button type="button" data-style="classic">♔ <span data-i18n="pieceClassic">Классика</span></button><button type="button" data-style="modern">♚ <span data-i18n="pieceModern">Современный</span></button><button type="button" data-style="minimal">♙ <span data-i18n="pieceMinimal">Минимал</span></button></div><label data-i18n="boardStyle">Доска</label><div class="choice-row board-styles"><button type="button" data-board="forest" data-i18n="boardForest">Лес</button><button type="button" data-board="walnut" data-i18n="boardWalnut">Орех</button><button type="button" data-board="blue" data-i18n="boardBlue">Синяя</button><button type="button" data-board="mono" data-i18n="boardMono">Моно</button><button type="button" data-board="rose" data-i18n="boardRose">Розовая</button><button type="button" data-board="slate" data-i18n="boardSlate">Сланцевая</button></div><label data-i18n="siteColor">Цвет сайта</label><select id="site-color"><option value="green" data-i18n="siteGreen">Зелёный</option><option value="black" data-i18n="siteBlack">Чёрный</option><option value="blue" data-i18n="siteBlue">Синий</option><option value="purple" data-i18n="sitePurple">Фиолетовый</option><option value="red" data-i18n="siteRed">Красный</option><option value="amber" data-i18n="siteAmber">Янтарный</option><option value="custom" data-i18n="siteCustom">Свой цвет</option></select><label id="custom-site-color-row" class="color-picker-row"><span>Свой цвет</span><input id="custom-site-color" type="color" value="#303238" aria-label="Custom site color"></label><label data-i18n="theme">Тема</label><div class="choice-row"><button type="button" data-theme="dark">☾ <span data-i18n="dark">Тёмная</span></button><button type="button" data-theme="light">☼ <span data-i18n="light">Светлая</span></button></div><label class="toggle-row"><span data-i18n="sounds">Звуки ходов</span><input id="sounds" type="checkbox"><i></i></label><label class="toggle-row"><span data-i18n="animations">Анимации</span><input id="animations" type="checkbox" checked><i></i></label><label data-i18n="soundStyle">Стиль звука</label><select id="sound-style"><option value="classic" data-i18n="soundClassic">Классический</option><option value="wood" data-i18n="soundWood">Дерево</option><option value="chime" data-i18n="soundChime">Колокольчик</option></select><a class="license-link" href="Stockfish-LICENSE.txt" target="_blank" rel="noopener">Stockfish · GPLv3</a><a class="license-link" href="https://github.com/nmrugg/stockfish.js" target="_blank" rel="noopener">Stockfish.js · исходный код</a></form></dialog>
+  <dialog id="game-review" class="review-dialog"><form method="dialog"><div class="settings-title"><h2 data-i18n="review">Партия</h2><button class="close-dialog" value="close">×</button></div><div class="review-board board" id="review-board" aria-hidden="true"></div><div id="review-content"></div><div class="review-nav"><button id="review-prev" type="button">←</button><span id="review-step"></span><button id="review-next" type="button">→</button></div></form></dialog>
+  <script src="app.js"></script>
+  <script src="features.js"></script>
+  <script>if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));</script>
+</body>
+</html>
